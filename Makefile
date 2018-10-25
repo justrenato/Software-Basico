@@ -7,7 +7,7 @@ exec: teste.o
 	ld teste.o -o teste
 
 clean:
-	-rm teste.o
+	-rm *.o
 
 purge: clean
-	-rm teste
+	-rm teste a.out
