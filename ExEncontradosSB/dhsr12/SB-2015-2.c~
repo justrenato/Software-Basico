@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+main (int argc, char **argv) {
+
+  int i;
+  char *a, *b, *c, *d;
+  initHeap();
+  imprimeMapa();
+ a = meuMalloc(128);
+  imprimeMapa();
+  b = meuMalloc(128);
+  imprimeMapa();
+  c = meuMalloc(256);
+  imprimeMapa();
+  d = meuMalloc(512);
+  imprimeMapa();
+  meuFree (a);
+  imprimeMapa();
+  meuFree (b);
+  a = meuMalloc(256);  
+  imprimeMapa();
+  meuFree (a);
+  imprimeMapa();
+  meuFree (c);
+  imprimeMapa();
+  meuFree (d);
+  imprimeMapa();
+}
