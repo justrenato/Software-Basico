@@ -1,4 +1,34 @@
 lendo pg85
+sasm : emulador assembly
+
+############################ exemplo bom  ############################
+/home/renato/UFPR/quartoSemestre/Software-Basico/ExEncontradosSB/rsj12/rsj12-kmml12
+
+############################ IMPORTAR FUNÇÕES DO ASSEMBLY NO C ############################
+# usando função em C
+int fu
+nc();
+int main(int argc, char const *argv[])
+{
+	
+	return func();
+}
+
+
+# criando função em Assembly
+
+.section .data
+
+.section .text
+
+.globl func
+.type func,@function
+func:
+
+movq $60, %rax
+movq $3, %rdi
+syscall
+
 
 ############################ TRABALHO ############################
 

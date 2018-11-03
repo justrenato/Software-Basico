@@ -1,13 +1,13 @@
 all: ob exec
 
-ob: teste.s
-	as teste.s -o teste.o
+ob: meuAloc.s
+	as meuAloc.s -o meuAloc.o
 
-exec: teste.o
-	ld teste.o -o teste
+exec: meuAloc.o
+	ld meuAloc.o -o meuAloc
 
 clean:
 	-rm *.o
 
 purge: clean
-	-rm teste a.out
+	-rm meuAloc a.out
