@@ -1,11 +1,11 @@
 all: ob exec
 
-ob: meuAloc.s
-	as meuAloc.s -o meuAloc.o
+ob: meuAloc.asm
+	as meuAloc.asm -o meuAloc.o
 
 exec: meuAloc.o
-	ld meuAloc.o -o meuAloc
-
+	ld meuAloc.o -o meuAloc -dynamic-linker /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 /usr/lib/x86_64-linux-gnu/crt* -lc
+	
 clean:
 	-rm *.o
 
