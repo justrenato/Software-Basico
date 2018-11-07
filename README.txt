@@ -1,13 +1,14 @@
 lendo pg85
 sasm : emulador assembly
 
+############################ PROBLEMA ############################
+NAO CONSIGO TRANSFORMAR O RETORNO DA BRK EM ENDEREÇO
 ############################ exemplo bom  ############################
 /home/renato/UFPR/quartoSemestre/Software-Basico/ExEncontradosSB/rsj12/rsj12-kmml12
 
 ############################ IMPORTAR FUNÇÕES DO ASSEMBLY NO C ############################
 # usando função em C
-int fu
-nc();
+int func();
 int main(int argc, char const *argv[])
 {
 	
@@ -42,7 +43,7 @@ c)   minimize o número de chamadas ao serviço brk alocando espaços múltiplos
 4096 ∗ 2 = 8192 bytes para acomodá-lo.
 
 5.4   implemente uma função que imprime um mapa da memória da região da
-heap em todos os algoritmos propostos aqui. Cada byte da parte gerencial do nó deve ser impresso com o caractere "#". O caractere usado para a impressão dos bytes do bloco de cada nó depende se o bloco estiver livre ou ocupado.   Se estiver livre,  imprime o caractere -". Se estiver ocupado, imprime o caractere "+".
+heap em todos os algoritmos propostos aqui. Cada byte da parte gerencial do nó deve ser impresso com o caractere "#". O caractere usado para a impressão dos bytes do bloco de cada nó depende se o bloco estiver livre ou ocupado.   Se estiver livre,  imprime o caractere "-". Se estiver ocupado, imprime o caractere "+".
 
 ############################ função brk ############################
 movq $12, %rax #12 é o numero da função brk
@@ -51,9 +52,6 @@ syscall
 movq %rax, %rdi
 movq $60, %rax
 syscall
-
-############################ compilação resumida em 'run' ############################
-alias run='as teste.s -o teste.o && ld teste.o -o teste && ./teste && echo valor de retorno: $?'
 
 ############################ makes ############################
 all: cria objeto e executavel
