@@ -1,15 +1,10 @@
-LDFLAGS = -dynamic-linker /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 /usr/lib/x86_64-linux-gnu/crt* -lc
-all: ob exec
+all: alocador
 
-ob: meuAloc.asm alocadorEmC.c
-	as meuAloc.asm -o meuAloc.o
-	gcc -c alocadorEmC.c -o alocadorEmC.o
+alocador: meuAloc.o alocadorEmC.c
+	gcc alocadorEmC.c meuAloc.o -o alocador 
 
-exec: meuAloc.o
-	ld meuAloc.o alocadorEmC.o -o meuAloc $(LDFLAGS)
-	
+meuAloc.o: meuAloc.asm
+	as meuAloc.asm -o meuAloc.o 
+
 clean:
-	-rm -f *.o
-
-purge: clean
-	-rm -f meuAloc a.out
+	-rm -f alocador *.o 
