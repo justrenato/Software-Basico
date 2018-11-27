@@ -58,7 +58,7 @@ malloc_inicio:		# guarda o inicio da heap, quando o alocador é usado pela prime
 	movq %rax, heap_ini		# carrega o inicio da heap
 	movq %rax, break_atual		# carrega a pos_atual
 	movq %rbp, %rsp			# fim da função
-	popl %rbp
+	popq %rbp
 	ret
 	
 .globl MeuMalloc
@@ -101,7 +101,7 @@ aloca_nessa_pos:
 	addq $TAM_CAB, %rax			# rax recebe o valor de memoria usavel depois do cabeçalho, que tambem é o valor de retorno
 	
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 	
 prox_endereco:
@@ -124,9 +124,9 @@ muda_break:
 	cmpq $0, %rax		# verifica se tem zero em rax
 	je erro			# se sim, vá para a função de erro
 	
-	popl %rbx		# desempilha rdx
-	popl %rcx		# desempilha rbx
-	popl %rax		# desempilha rax 
+	popq %rbx		# desempilha rdx
+	popq %rcx		# desempilha rbx
+	popq %rax		# desempilha rax 
 	
 	movq $INDISP, DISP_CAB (%rax)	# marca como indisponivel
 	movq %rcx, SIZE_CAB (%rax)		# coloca o tamanho que foi alocado
@@ -140,13 +140,13 @@ muda_break:
 	movq %rdx, break_atual 		# atualiza o tamanho atual da brk
 	
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 
 erro:
 	movq $0, %rax 		# retorna zero
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 	
 # -----------------------------# 
@@ -182,7 +182,7 @@ zera_loop:
 fim:
 	
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 	
 # -----------------------------# 
@@ -210,8 +210,8 @@ diferente:
 	call MeuLiberaMemoria
 	addq $4, %rsp
 	
-	popl %rbx			# desempilha rbx
-	popl %rcx			# desempilha rcx
+	popq %rbx			# desempilha rbx
+	popq %rcx			# desempilha rcx
 	
 	movq break_atual, %rbx 		# coloca o tamanho atual em rbx
 	movq %rbx, %rax
@@ -228,7 +228,7 @@ diferente:
 
 fim_realloc:
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 	
 # -----------------------------# 
@@ -243,7 +243,7 @@ MeuLiberaMemoria:
 	movq %rsp, %rbp
 	
 	movq 8(%rbp), %rcx 		# desmontando o cabeçalho
-	subl $8, %rcx
+	subq $8, %rcx
 	movq $DISP, 0 (%rcx)	# coloca disponivel
 	
 	movq 4(%rcx), %rbx
@@ -252,7 +252,7 @@ MeuLiberaMemoria:
 	movq $DISP, 0 (%rcx)	# coloca disponivel
 	
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 # -----------------------------# 
 # --Imprime_Mapa--# 
@@ -329,8 +329,8 @@ fimfor1:
 	addq $4, %rsp
 	movq salvar, %rax			# coloca o valor do inicio da Heap em rax
 	
-	popl %rcx					# desempilha rcx
-	popl %rdx					# desempilha rbx
+	popq %rcx					# desempilha rcx
+	popq %rdx					# desempilha rbx
 	
 	addq $16, %rax
 	addq %rdx, %rax
@@ -371,8 +371,8 @@ fimfor2:
 	addq $4, %rsp
 	movq salvar, %rax			# coloca o valor do inicio da Heap em rax
 	
-	popl %rcx					# desempilha rcx
-	popl %rdx					# desempilha rbx
+	popq %rcx					# desempilha rcx
+	popq %rdx					# desempilha rbx
 	
 	addq $16, %rax
 	addq %rdx, %rax
@@ -389,7 +389,7 @@ final:
 	movq salvar, %rax
 	
 	movq %rbp, %rsp
-	popl %rbp
+	popq %rbp
 	ret
 # -----------------------------# 
 
