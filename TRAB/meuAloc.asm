@@ -2,8 +2,6 @@
 	brk_inicial: .quad 0
 	brk_atual: .quad 0
 
-	.equ TAM_MIN, 4096 
-
 	livre: .string "-"
 	ocupado: .string "+"
 	infoGen: .string "#"
@@ -69,7 +67,7 @@
 	syscall # nesse momento brk esta aumentada numero de bytes solicitado + 16
 
 	movq brk_atual, %rbx # brk_atual ainda aponta para antigo topo (que agora é inicio do novo bloco)
-	movq $1, (%rbx) # indico que no endereço apontado pela brk_atual coloco valor 1 para demonstrar que esta sendo usado o bloco
+	movq $1, (%rbx) # indico que no endereço apontado pela brk_atual coloco valor 1 para demonstrar que esta sendo livre o bloco
 
 	addq $8, %rbx # apontando para info que indica tamanho do bloco
 	movq %rdx, (%rbx) # rdx tem valor de bytes alocados, insere no campo da info gerenciavel
@@ -188,10 +186,10 @@
 			addq (%rcx), %rcx # adiciona o tamanho do bloco em rcx
 			addq $8, %rcx # adiciona em rcx 8 bytes que faltaram referentes à info gerenciavel
 
-			cmpq %rbx, %rcx
+			cmpq %rbx, %rcx # se auxiliar saiu do topo da heap sai da função
 			jge fim_while2
-			
-			cmpq $0, (%rcx)
+
+			cmpq $0, (%rcx) # se próximo bloco n for livre n entra no if 
 			jne fim_if2
 
 			addq $8, %rcx # aponta para tamanho do bloco
@@ -212,11 +210,6 @@
 		jmp while2
 
 	fim_while2:
-
-
-
-
-
 
 	popq %rbp
 	ret

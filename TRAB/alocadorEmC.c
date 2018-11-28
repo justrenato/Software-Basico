@@ -23,15 +23,14 @@ int main(int argc, char const *argv[])
    imprimeMapa();
    printf("\n");
 
-   void *a= (void *)alocaMem(10);
-   void *b= (void *)alocaMem(10);
-   void *c= (void *)alocaMem(10);
-   // printf("alocaMem:       %p\n",a);
+   void *a= (void *)alocaMem(100);
+   void *b= (void *)alocaMem(100);
+   void *c= (void *)alocaMem(100);
 
    printf("topo atual:     %p\n",topoAtual());
 
    liberaMem(a);
-   liberaMem(b);
+   // liberaMem(b);
    liberaMem(c);
    printf("\nIMPRIME MAPA:\n");
    imprimeMapa();
@@ -50,7 +49,7 @@ int main(int argc, char const *argv[])
    finalizaAlocador();
 }
 
-// void *alocaMem(int num_bytes){
+// void *alocaMemSimples(int num_bytes){
 //    aloca num_bytes + 16
 //    brk_atual= 1; /*ocupado*/
 //    brk_atual+8= num_bytes; quantos blocos estao sendo usados
@@ -108,5 +107,13 @@ int main(int argc, char const *argv[])
 //          }
 //       }
 //       rax = proximo bloco
+//    }
+// }
+
+
+// void *alocaMem(num_bytes){
+//    rcx = 0 // pra dizer se achou ou nao bloco livre e com espaço suficiente
+//    while (rax != rbx){ //enquanto n percorrer heap inteira
+
 //    }
 // }
