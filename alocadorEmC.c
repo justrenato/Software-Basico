@@ -10,7 +10,6 @@ void finalizaAlocador();
 
 void *iniciaAlocador();
 void *alocaMem(int a);
-// void *aumenta(int a,int b,int c,int d,int e,int f, int g, int h);
 void *topoAtual();
 void imprimeMapa();
 void liberaMem();
@@ -20,14 +19,20 @@ int main(int argc, char const *argv[])
    printf("-----------------------INICIO DO PROGRAMA-----------------------\n");
    printf("iniciaAlocador: %p\n",iniciaAlocador());
 
+   printf("\nIMPRIME MAPA:\n");
+   imprimeMapa();
+   printf("\n");
 
-   void *a= alocaMem(100);
-   void *b= alocaMem(100);
-   printf("alocaMem:       %p\n",a);
-   printf("alocaMem:       %p\n",b);
+   void *a= (void *)alocaMem(10);
+   void *b= (void *)alocaMem(10);
+   void *c= (void *)alocaMem(10);
+   // printf("alocaMem:       %p\n",a);
+
    printf("topo atual:     %p\n",topoAtual());
+
    liberaMem(a);
    liberaMem(b);
+   liberaMem(c);
    printf("\nIMPRIME MAPA:\n");
    imprimeMapa();
    printf("\n");
@@ -77,5 +82,31 @@ int main(int argc, char const *argv[])
 //       {
 //          printf("-");
 //       }
+//    }
+// }
+
+// alocaCerto(num_bytes){
+//    while (ponteiro != brk_atual){
+//       procura bloco livre E tam maior ou igual a num_bytes
+//       se achar indica que esta ocupado e retorna o endereço inical
+
+//       senao abre 4096 (ou mais se for maior a solicitação)na heap 
+//    }
+// }
+
+
+// fusaoNoLivre(){
+//    while(rax != brk_atual){
+//       if (rax=livre)
+//       {
+//          rcx aponta para proximo bloco
+//          if (rcx = livre)
+//          {
+//             rcx aponta para tamanho do bloco
+//             rax aponta para tamanho do bloco
+//             rax muda tamanho para tamanho atual + tamanho do outro livre + 16
+//          }
+//       }
+//       rax = proximo bloco
 //    }
 // }

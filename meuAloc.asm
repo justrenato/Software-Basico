@@ -160,9 +160,63 @@
 	pushq %rbp
 	movq %rsp, %rbp
 
-	subq $16, %rdi
-	movq $0, (%rdi)
+	subq $16, %rdi # rdi contem o parametro de onde é o endereço do bloco a ser livre, agora aponta para info gerenciavel livre/ocupado
+	movq $0, (%rdi) # muda para zero p informar que esta livre 
+
+	call fusao
 
 	popq %rbp
 	ret
-	
+
+.globl fusao
+	.type fusao, @function
+	fusao:	
+	pushq %rbp
+	movq %rsp, %rbp
+
+	movq brk_inicial, %rax # aponta para inicio da heap para percorrer a procura de nos livres
+	movq brk_atual, %rbx # aponta para final da heap
+
+	while2:
+		cmpq %rbx, %rax
+		je fim_while2 # se chegar ao final da heap sai do while
+
+		cmpq $0, (%rax) # se nó for livre
+		jne fim_if1
+			movq %rax, %rcx # rcx aponta para mesmo lugar q rax
+			addq $8, %rcx # aponta para tamanho do bloco
+			addq (%rcx), %rcx # adiciona o tamanho do bloco em rcx
+			addq $8, %rcx # adiciona em rcx 8 bytes que faltaram referentes à info gerenciavel
+
+			cmpq %rbx, %rcx
+			jge fim_while2
+			
+			cmpq $0, (%rcx)
+			jne fim_if2
+
+			addq $8, %rcx # aponta para tamanho do bloco
+			addq $8, %rax # aponta para tamanho do bloco
+
+			movq (%rcx), %r12
+			addq %r12,(%rax) # rax incrementa tamanho do no livre
+			addq $16, (%rax) # rax incrementa 16 bytes das info gerenciaveis
+			subq $8, %rax # aponta para tamanho do bloco
+
+			fim_if2:
+		fim_if1: # caso nó n seja livre pula pro proximo bloco
+
+		addq $8, %rax # aponta para tamanho do bloco
+		addq (%rax), %rax # adiciona em rax o tamanho do bloco
+		addq $8, %rax # adiciona em rax 8 bytes que faltaram adionar referente à ultima info gerenciavel
+
+		jmp while2
+
+	fim_while2:
+
+
+
+
+
+
+	popq %rbp
+	ret
