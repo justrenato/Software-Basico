@@ -8,20 +8,26 @@ void finalizaAlocador();
 // void imprMapa();
 // void iniciaAlocador();
 
-long int iniciaAlocador();
-long int alocaMem(int a);
-// long int aumenta(int a,int b,int c,int d,int e,int f, int g, int h);
-long int topoAtual();
+void *iniciaAlocador();
+void *alocaMem(int a);
+// void *aumenta(int a,int b,int c,int d,int e,int f, int g, int h);
+void *topoAtual();
 void imprimeMapa();
+void liberaMem();
 
 int main(int argc, char const *argv[])
 {
    printf("-----------------------INICIO DO PROGRAMA-----------------------\n");
+   printf("iniciaAlocador: %p\n",iniciaAlocador());
 
-   printf("iniciaAlocador: 0x%ld\n",iniciaAlocador());
-   printf("alocaMem:       0x%ld\n",alocaMem(500));
-   printf("alocaMem:       0x%ld\n",alocaMem(500));
-   printf("topo atual:     0x%ld\n",topoAtual());
+
+   void *a= alocaMem(100);
+   void *b= alocaMem(100);
+   printf("alocaMem:       %p\n",a);
+   printf("alocaMem:       %p\n",b);
+   printf("topo atual:     %p\n",topoAtual());
+   liberaMem(a);
+   liberaMem(b);
    printf("\nIMPRIME MAPA:\n");
    imprimeMapa();
    printf("\n");

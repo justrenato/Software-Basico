@@ -57,27 +57,27 @@
 	pushq %rbp
 	movq %rsp, %rbp
 
-	movq %rdi, %rbx # numero de bytes para alocar vem como parametro em %rdi
-	movq %rdi, %rdx # numero de bytes para alocar vem como parametro em %rdi
-	addq $16, %rbx # espaço para infos gerenciaveis
+	movq %rdi, %rbx # salva o numero de bytes (a ser alocado) de %rdi em %rbx
+	movq %rdi, %rdx # salva o numero de bytes (a ser alocado) de %rdi em %rdx
+	addq $16, %rbx # aumenta espaço para infos gerenciaveis
 
-	movq brk_atual, %rcx # endereço da variavel em rcx
+	movq brk_atual, %rcx # topo atual da heap em rcx
 
 	movq %rcx, %rdi # brk atual em rdi
 	addq %rbx, %rdi # aumenta brk atual somando o numero indicado no parametro
 	movq $12, %rax # chamada de brk
-	syscall
+	syscall # nesse momento brk esta aumentada numero de bytes solicitado + 16
 
-	movq brk_atual, %rbx
-	movq $1, (%rbx)
+	movq brk_atual, %rbx # brk_atual ainda aponta para antigo topo (que agora é inicio do novo bloco)
+	movq $1, (%rbx) # indico que no endereço apontado pela brk_atual coloco valor 1 para demonstrar que esta sendo usado o bloco
 
-	addq $8, %rbx
-	movq %rdx, (%rbx) # rdx tem valor de bytes alocados
+	addq $8, %rbx # apontando para info que indica tamanho do bloco
+	movq %rdx, (%rbx) # rdx tem valor de bytes alocados, insere no campo da info gerenciavel
 
 	movq %rax, brk_atual # atualiza brk atual
 
-	addq $8, %rbx
-	movq %rbx, %rax
+	addq $8, %rbx # apontando agora para inicio do bloco alocado
+	movq %rbx, %rax # joga no valor de retorno o endereço do bloco a ser usado 
 
 	popq %rbp
 	ret
@@ -153,3 +153,16 @@
 
 	popq %rbp
 	ret
+
+.globl liberaMem
+	.type liberaMem, @function
+	liberaMem:	
+	pushq %rbp
+	movq %rsp, %rbp
+
+	subq $16, %rdi
+	movq $0, (%rdi)
+
+	popq %rbp
+	ret
+	
